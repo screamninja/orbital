@@ -25,7 +25,7 @@ class AjaxController extends Controller
     {
 //        $ask = $_POST['who\'s there'];
 //
-//        if ($ask) {
+//        if ($ask['who\'s there'] === 'who\'s there') {
 //            $position = (new Query())
 //                ->select(['id','username', 'left', 'top'])
 //                ->from('users')
