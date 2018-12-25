@@ -11,10 +11,10 @@ namespace app\models;
 use yii\db\ActiveRecord;
 
 /**
- * Class UserRecorder
+ * Class Recorder
  * @package app\models
  */
-class UserRecorder extends ActiveRecord
+class Recorder extends ActiveRecord
 {
     /**
      * @return string

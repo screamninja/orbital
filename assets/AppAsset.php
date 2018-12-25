@@ -30,5 +30,5 @@ class AppAsset extends AssetBundle
         'yii\jui\JuiAsset',
         'yii\bootstrap\BootstrapAsset'
     ];
-    //public $jsOptions = ['position' => \yii\web\View::POS_END];
+    // public $cssOptions = ['position' => \yii\web\View::POS_END];
 }

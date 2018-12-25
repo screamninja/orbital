@@ -4,8 +4,8 @@ namespace app\controllers;
 
 use app\models\User;
 use app\models\ActiveRecordUser;
-use app\models\UserRecorder;
-use app\models\UserForm;
+use app\models\Recorder;
+use app\models\Form;
 use app\models\LoginForm;
 use Yii;
 use yii\filters\AccessControl;
@@ -70,10 +70,10 @@ class SiteController extends Controller
     {
         $session = Yii::$app->session;
 
-        $model = new UserForm();
+        $model = new Form();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $user = new UserRecorder();
+            $user = new Recorder();
             $user->username = $model->username;
             $user->save();
             $identify = new ActiveRecordUser();
@@ -95,7 +95,7 @@ class SiteController extends Controller
     public function actionStart(): ?Response
     {
 
-        $model = new UserForm();
+        $model = new Form();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $user = new User();

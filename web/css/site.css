@@ -117,14 +117,23 @@ a.desc:after {
 #container {
     border: solid black;
     width: 600px;
-    height: 600px
+    height: 600px;
+    margin: auto;
 }
 
-div.dragElement {
+#username {
+    position: absolute;
+    left: 10px;
+    bottom: 55px;
+}
+
+.dragElement {
+    position: relative;
     font-size: large;
     border: solid black;
     height: 60px;
     width: 60px;
     text-align: center;
-    margin: 20px
+    margin: 20px;
+    background-color: black;
 }
