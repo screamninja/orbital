@@ -68,9 +68,10 @@ class SiteController extends Controller
      */
     public function actionIndex(): string
     {
-        $session = Yii::$app->session;
-
         $model = new Form();
+
+        $session = Yii::$app->session;
+        $session->open();
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $user = new Recorder();
@@ -79,6 +80,7 @@ class SiteController extends Controller
             $identify = new ActiveRecordUser();
             if ($session->isActive) {
                 Yii::$app->user->login($identify::findByUsername($model->username));
+                $session->set('logged_user', $model->username);
             }
             return $this->render('start', ['model' => $model]);
         }
