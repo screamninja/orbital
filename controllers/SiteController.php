@@ -62,7 +62,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays homepage and "start" page.
      *
      * @return string
      */
@@ -71,39 +71,23 @@ class SiteController extends Controller
         $model = new Form();
 
         $session = Yii::$app->session;
-        $session->open();
+        $session->open(); // открываем сессию, если она не была открыта ранее
 
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $user = new Recorder();
             $user->username = $model->username;
-            $user->save();
+            $user->save(); // сохраняем пользователя в БД
             $identify = new ActiveRecordUser();
             if ($session->isActive) {
-                Yii::$app->user->login($identify::findByUsername($model->username));
-                $session->set('logged_user', $model->username);
+                Yii::$app->user->login($identify::findByUsername($model->username)); // авторизуем пользователья
+                $session->set('logged_user', $model->username); // добавляем имя пользователя в сессию
             }
-            return $this->render('start', ['model' => $model]);
+            return $this->render('start', ['model' => $model]); // возвращаем представление "старт"
         }
-        if (!Yii::$app->user->isGuest) {
+        if (!Yii::$app->user->isGuest) { // если не гость, то отображаем представление "старт"
             return $this->render('start', ['model' => $model]);
-        } else {
+        } else { // если гость, то отображаем страницу приветствия
             return $this->render('index', ['model' => $model]);
-        }
-    }
-
-    /**
-     * @return Response|null
-     */
-    public function actionStart(): ?Response
-    {
-
-        $model = new Form();
-
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            $user = new User();
-            return $this->render('entry-confirm', ['model' => $model]);
-        } else {
-            return $this->render('entry', ['model' => $model]);
         }
     }
 

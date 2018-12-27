@@ -15,53 +15,46 @@ $(function () {
                 url: '/ajax/move',
                 type: 'POST',
                 data: data,
+                // в случае ошибки
                 error: function () {
                     alert('Error');
                 }
             });
 
-            // устанавливаем интервал вызова метода watch возвращающего данные для просмотра других пользователей
-            var timerID = setInterval(function () {
-                // отправляем AJAX-запрос с помощью метода jQuery
-                $.ajax({
-                    url: '/ajax/watch',
-                    type: 'POST',
-                    success: function (json, status) {
-                        if (status !== 'success') {
-                            alert('Error');
-                            return;
+            // отправляем AJAX-запрос с помощью метода jQuery
+            $.ajax({
+                url: '/ajax/watch',
+                type: 'POST',
+                // в случае успеха
+                success: function (json, status) {
+                    // преобразуем полученные данные в массив
+                    var parsed = JSON.parse(json);
+                    var arr = [];
+                    for (var x in parsed) {
+                        arr.push(parsed[x]);
+                    }
+                    // проверяем получена ли мы команда "не двигаться"
+                    if (arr['0'] !== 'X') {
+                        // проверяем был ли создан элемент ранее
+                        if (!document.getElementById('notDragElement')) {
+                            // добавляем элемент на страницу
+                            var container = document.getElementById('container');
+                            container.insertAdjacentHTML(
+                                'beforeend',
+                                '<div id="notDragElement"><div id="username">' + arr[1] + '</div></div>'
+                            );
                         }
-                        // преобразуем полученные данные в массив
-                        var parsed = JSON.parse(json);
-                        var arr = [];
-                        for (var x in parsed) {
-                            arr.push(parsed[x]);
-                        }
-
-
-
-                        // добавляем квадрат другого пользователя
-                        var container = document.getElementById('container');
-                        container.insertAdjacentHTML(
-                            'beforeend',
-                            '<div id="notDragElement">' + arr[1] + '</div>'
-                        );
-                        var notDragElement = document.getElementsByClassName('notDragElement');
+                        // задаём элементу координаты полученные с сервера
+                        document.getElementById('notDragElement');
                         $(document).ready(function () {
                             $("#notDragElement").offset(function (i, val) {
                                 return {left:arr[2], top:arr[3]}
                             });
                         })
-                    },
-                    error: function () {
-                        alert('Error');
-                    },
-                });
-            }, 1000);
-            // устанавливаем таймер прекращающий выполнение вызова метода watch
-            setTimeout(function () {
-                clearInterval(timerID);
-            }, 2000);
+                    }
+                },
+            });
+
         }
     })
 });

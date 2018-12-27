@@ -16,6 +16,7 @@ class Form extends Model
      * @var
      */
     public $username;
+
     /**
      * @return array the validation rules.
      */
